@@ -1,0 +1,33 @@
+# Terraform provider plugins — large folder, no need to push
+.terraform/
+
+# Terraform lock file — auto generated
+.terraform.lock.hcl
+
+# Terraform state files — contains sensitive info, never push
+terraform.tfstate
+terraform.tfstate.backup
+
+# Terraform variable files — may contain secrets
+*.tfvars
+*.tfvars.json
+
+# Terraform crash log
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Docker
+.dockerignore
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
