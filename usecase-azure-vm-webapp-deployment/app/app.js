@@ -1,0 +1,1 @@
+console.log('App initialized. Nginx serves index.html on port 80.');
