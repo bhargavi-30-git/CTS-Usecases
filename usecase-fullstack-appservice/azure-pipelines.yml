@@ -1,0 +1,89 @@
+trigger:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  ACR_NAME: "tfuc3acr001"
+  ACR_LOGIN_SERVER: "tfuc3acr001.azurecr.io"
+  BACKEND_IMAGE: "backend"
+  FRONTEND_IMAGE: "frontend"
+  IMAGE_TAG: "$(Build.BuildId)"
+
+stages:
+
+# ── STAGE 1: Build & Push Backend Image ─────────────────────
+- stage: Build_Push_Backend
+  displayName: "Build & Push Backend Image"
+  jobs:
+  - job: BuildBackend
+    steps:
+    - task: Docker@2
+      displayName: "Build and Push Backend to ACR"
+      inputs:
+        command: "buildAndPush"
+        containerRegistry: "tfuc3acr001"
+        repository: "$(BACKEND_IMAGE)"
+        dockerfile: "BackendApi/Dockerfile"
+        buildContext: "BackendApi"
+        tags: |
+          $(IMAGE_TAG)
+          latest
+
+# ── STAGE 2: Build & Push Frontend Image ────────────────────
+- stage: Build_Push_Frontend
+  displayName: "Build & Push Frontend Image"
+  dependsOn: []
+  jobs:
+  - job: BuildFrontend
+    steps:
+    - task: Docker@2
+      displayName: "Build and Push Frontend to ACR"
+      inputs:
+        command: "buildAndPush"
+        containerRegistry: "tfuc3acr001"
+        repository: "$(FRONTEND_IMAGE)"
+        dockerfile: "FrontendApp/Dockerfile"
+        buildContext: "FrontendApp"
+        tags: |
+          $(IMAGE_TAG)
+          latest
+
+# ── STAGE 3: Deploy Backend Container to App Service ────────
+- stage: Deploy_Backend
+  displayName: "Deploy Backend to App Service"
+  dependsOn: Build_Push_Backend
+  jobs:
+  - deployment: DeployBackend
+    environment: "production"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            displayName: "Deploy Backend Container"
+            inputs:
+              azureSubscription: "Azure for Students"
+              appName: "tf-uc3-backend"
+              containers: "$(ACR_LOGIN_SERVER)/$(BACKEND_IMAGE):$(IMAGE_TAG)"
+
+# ── STAGE 4: Deploy Frontend Container to App Service ───────
+- stage: Deploy_Frontend
+  displayName: "Deploy Frontend to App Service"
+  dependsOn: Build_Push_Frontend
+  jobs:
+  - deployment: DeployFrontend
+    environment: "production"
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            displayName: "Deploy Frontend Container"
+            inputs:
+              azureSubscription: "Azure for Students"
+              appName: "tf-uc3-frontend"
+              containers: "$(ACR_LOGIN_SERVER)/$(FRONTEND_IMAGE):$(IMAGE_TAG)"
