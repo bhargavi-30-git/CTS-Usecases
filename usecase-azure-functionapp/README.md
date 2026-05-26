@@ -1,15 +1,16 @@
-# 🚀 Deployment of .NET Application to Azure Function App using Azure DevOps CI/CD Pipelines
+# 🚀 Azure Function App Deployment using Azure DevOps CI/CD Pipelines
 
 ## 📖 Overview
 
-This project demonstrates the deployment of a .NET application to Azure Function App using Azure DevOps CI/CD pipelines and Terraform infrastructure automation.
+This project demonstrates the deployment of a .NET Azure Function App using Azure DevOps CI/CD pipelines and Terraform infrastructure automation.
 
-The implementation focuses on:
+The implementation includes:
 - Azure Function App deployment
-- CI/CD automation using Azure DevOps
 - Infrastructure provisioning using Terraform
-- Automated build and deployment workflows
-- Serverless cloud application deployment
+- CI/CD automation using Azure DevOps
+- Serverless application hosting
+- Automated deployment workflows
+- Unit testing integration
 
 ---
 
@@ -19,37 +20,49 @@ The implementation focuses on:
 - Azure DevOps
 - Terraform
 - .NET
+- C#
 - Azure Pipelines
-- YAML
+- xUnit Testing Framework
 
 ---
 
 # 📂 Project Structure
 
 ```bash
-azure-functionapp-cicd/
+usecase-azure-functionapp/
 │
-├── terraform/
+├── infra/
 │   ├── main.tf
-│   ├── variables.tf
-│   └── outputs.tf
+│   ├── outputs.tf
+│   └── variables.tf
+│
+├── src/
+│   ├── host.json
+│   ├── HttpTriggerFunction.cs
+│   ├── MyFunctionApp.csproj
+│   └── Program.cs
+│
+├── tests/
+│   ├── HttpTriggerFunctionTests.cs
+│   └── MyFunctionApp.Tests.csproj
 │
 ├── azure-pipelines.yml
-├── FunctionApp/
-├── README.md
-└── configuration files
+├── terraform-pipeline.yml
+├── .gitignore
+└── README.md
 ```
 
 ---
 
 # ⚙️ Features
 
-✅ Deployment of .NET application to Azure Function App  
-✅ CI/CD pipeline automation using Azure DevOps  
+✅ Azure Function App deployment  
+✅ Serverless .NET application hosting  
 ✅ Infrastructure provisioning using Terraform  
-✅ Automated deployment workflow  
-✅ Serverless application hosting  
-✅ Azure cloud integration  
+✅ CI/CD automation using Azure DevOps  
+✅ Automated deployment workflows  
+✅ Unit testing integration  
+✅ Infrastructure as Code (IaC) implementation  
 
 ---
 
@@ -57,48 +70,101 @@ azure-functionapp-cicd/
 
 ## Azure Function App
 Used for:
-- Hosting serverless .NET applications
+- Hosting serverless applications
 - Event-driven execution
 - Scalable cloud processing
 
 ## Azure DevOps
 Used for:
-- Source control
+- Source code management
 - Build pipelines
-- Release pipelines
-- CI/CD automation
+- Release automation
+- CI/CD workflows
 
 ---
 
 # 🏗️ Terraform Infrastructure
 
-Terraform is used to automate Azure infrastructure provisioning.
+Terraform is used to provision Azure infrastructure resources.
 
-Main Terraform responsibilities:
-- Resource creation
-- Azure Function App setup
-- Infrastructure automation
-- Deployment configuration
+## Infrastructure Files
+
+### `main.tf`
+Defines Azure resources and Function App infrastructure.
+
+### `variables.tf`
+Contains reusable infrastructure variables.
+
+### `outputs.tf`
+Defines deployment output values.
+
+Infrastructure folder:
+
+```bash
+infra/
+```
 
 ---
 
-# 🔄 CI/CD Workflow
+# ⚙️ Azure Function Application
 
-## Continuous Integration
+The Azure Function App is developed using .NET and C#.
 
-Pipeline automates:
+Main application files:
+
+```bash
+src/HttpTriggerFunction.cs
+src/Program.cs
+src/host.json
+```
+
+---
+
+# 🔗 Function Workflow
+
+1. HTTP request triggers Azure Function.
+2. Function processes incoming request.
+3. Response is generated dynamically.
+4. Azure Function App handles execution automatically.
+
+---
+
+# 🧪 Unit Testing
+
+Unit tests are implemented for validating Azure Function behavior.
+
+Test files:
+
+```bash
+tests/HttpTriggerFunctionTests.cs
+tests/MyFunctionApp.Tests.csproj
+```
+
+Testing ensures:
+- Function execution validation
+- Response verification
+- Application reliability
+
+---
+
+# 🔄 CI/CD Pipeline Workflow
+
+## Azure DevOps Pipeline
+
+The pipeline automates:
+
 1. Source code validation
 2. Build process
-3. Artifact generation
+3. Test execution
+4. Infrastructure provisioning
+5. Azure Function deployment
 
----
+Pipeline files:
 
-## Continuous Deployment
-
-Pipeline automates:
-1. Azure Function App deployment
-2. Infrastructure deployment
-3. Release automation
+```bash
+azure-pipelines.yml
+terraform-pipeline.yml
+```
 
 ---
 
@@ -106,10 +172,11 @@ Pipeline automates:
 
 1. Developer pushes code to repository
 2. Azure DevOps pipeline gets triggered
-3. Terraform provisions Azure resources
+3. Terraform provisions Azure infrastructure
 4. .NET application builds successfully
-5. Azure Function App deployment executes
-6. Application becomes available in Azure cloud
+5. Unit tests execute
+6. Azure Function App deployment completes
+7. Function becomes accessible in Azure cloud
 
 ---
 
@@ -138,7 +205,7 @@ git clone <repository-url>
 ## Navigate to Project
 
 ```bash
-cd azure-functionapp-cicd
+cd usecase-azure-functionapp
 ```
 
 ---
@@ -146,7 +213,7 @@ cd azure-functionapp-cicd
 ## Initialize Terraform
 
 ```bash
-cd terraform
+cd infra
 terraform init
 ```
 
@@ -160,12 +227,20 @@ terraform apply
 
 ---
 
-## Run CI/CD Pipeline
+## Build the Function App
 
-Use Azure DevOps pipeline configuration to:
-- Build application
-- Deploy Azure Function App
-- Automate releases
+```bash
+cd ../src
+dotnet build
+```
+
+---
+
+## Run the Function App Locally
+
+```bash
+func start
+```
 
 ---
 
@@ -174,10 +249,10 @@ Use Azure DevOps pipeline configuration to:
 This project demonstrates:
 - Azure Function App deployment
 - Serverless architecture
-- CI/CD automation
-- Terraform infrastructure provisioning
-- Azure DevOps integration
-- Cloud-native deployment workflows
+- Terraform automation
+- Azure DevOps CI/CD implementation
+- Infrastructure as Code
+- Automated testing workflows
 
 ---
 
@@ -189,6 +264,7 @@ This project demonstrates:
 - CI/CD Workflows
 - Serverless Computing
 - Infrastructure as Code
+- Unit Testing
 
 ---
 
